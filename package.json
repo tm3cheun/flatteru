@@ -1,0 +1,18 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "A Facebook bot that only knows how to flatter-u",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Tiffany",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.12",
+    "request": "^2.82.0"
+  }
+}
