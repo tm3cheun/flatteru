@@ -58,9 +58,9 @@ function processMessage(event) {
     console.log("Received message from senderId: " + senderId);
     console.log("Message is: " + JSON.stringify(message));
     
-    // var reply = getRandomCompliment();
+    var reply = getRandomCompliment();
 
-	sendMessage(senderId, {text: "HELLO"});
+	sendMessage(senderId, {text: reply});
   }
 }
 
