@@ -10,6 +10,7 @@ app.listen((process.env.PORT || 5000));
 var mongoose = require("mongoose");
 
 var db = mongoose.connect(process.env.MONGODB_URI);
+var Compliments = require("./models/compliment");
 
 // Server index page
 app.get("/", function (req, res) {
@@ -69,7 +70,9 @@ function getRandomCompliment() {
 	   { $sample: { size: 1 } }
 	);
 
-	return compliment.message;
+	console.log(compliment)
+
+	return compliment;
 }
 
 function processPostback(event) {
