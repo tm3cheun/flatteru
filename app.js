@@ -38,8 +38,6 @@ app.post("/webhook", function (req, res) {
     req.body.entry.forEach(function(entry) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
-      	sendMessage(userId, {text: event.postback});
-      	sendMessage(userId, {text: event.message});
         if (event.postback) {
           processPostback(event);
         } else if (event.message) {
@@ -62,7 +60,7 @@ function processMessage(event) {
     
     // var reply = getRandomCompliment();
 
-	sendMessage(userId, {text: "HELLO"});
+	sendMessage(senderId, {text: "HELLO"});
   }
 }
 
