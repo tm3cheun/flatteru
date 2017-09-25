@@ -7,6 +7,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 
+var mongoose = require("mongoose");
+
+var db = mongoose.connect(process.env.MONGODB_URI);
+
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
@@ -35,6 +39,8 @@ app.post("/webhook", function (req, res) {
       entry.messaging.forEach(function(event) {
         if (event.postback) {
           processPostback(event);
+        } else if (event.message) {
+          processMessage(event);
         }
       });
     });
@@ -42,6 +48,29 @@ app.post("/webhook", function (req, res) {
     res.sendStatus(200);
   }
 });
+
+function processMessage(event) {
+  if (!event.message.is_echo) {
+    var message = event.message;
+    var senderId = event.sender.id;
+
+    console.log("Received message from senderId: " + senderId);
+    console.log("Message is: " + JSON.stringify(message));
+    
+    var reply = getRandomCompliment();
+
+	sendMessage(userId, {text: reply});
+  }
+}
+
+function getRandomCompliment() {
+	// get random compliment from compliments collection
+	var compliment = db.compliments.aggregate(
+	   { $sample: { size: 1 } }
+	);
+
+	return compliment.message;
+}
 
 function processPostback(event) {
   var senderId = event.sender.id;
