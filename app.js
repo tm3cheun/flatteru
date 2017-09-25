@@ -69,7 +69,7 @@ function getRandomCompliment() {
 	// Get the count of all users
 	compliments.count().exec(function (err, count) {
 		if (err) {
-			return "Please try again! I am so sorry your magnificence!"
+			return "Please try again! I am so sorry your magnificence!";
 		}
 
 		// Get a random entry
@@ -80,7 +80,7 @@ function getRandomCompliment() {
 			if (err){
 				return "Please try again! I am so sorry your magnificence!";
 			}
-			return compliment;
+			return compliment["message"];
 		});
 	});
 }
