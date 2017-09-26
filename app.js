@@ -53,7 +53,7 @@ app.post("/webhook", function (req, res) {
   }
 });
 
-function setupGetStartedButton(res){
+function setupGetStartedButton(res) {
   var messageData = {
     "get_started":[{
       "payload":"USER_DEFINED_PAYLOAD"
@@ -62,7 +62,7 @@ function setupGetStartedButton(res){
 
   // Start the request
   request({
-    url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+    url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ process.env.PAGE_ACCESS_TOKEN,
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     form: messageData
