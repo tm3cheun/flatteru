@@ -80,7 +80,7 @@ function getRandomCompliment() {
 			if (err){
 				return "Please try again! I am so sorry your magnificence!";
 			}
-			return compliment["message"];
+			return "Compliment has been found!";
 		});
 	});
 }
