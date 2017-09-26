@@ -7,9 +7,11 @@ var db = mongoose.connect(process.env.MONGODB_URI);
 var compliments = require("./models/compliments");
 
 var app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.listen((process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5000))
+// Process application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}))
+// Process application/json
+app.use(bodyParser.json())
 
 // Server index page
 app.get("/", function (req, res) {
@@ -18,7 +20,7 @@ app.get("/", function (req, res) {
 
 // Facebook Webhook
 // Used for verification
-app.get("/webhook", function (req, res) {
+app.get("/webhook/", function (req, res) {
   if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
@@ -29,7 +31,7 @@ app.get("/webhook", function (req, res) {
 });
 
 // All callbacks for Messenger will be POST-ed here
-app.post("/webhook", function (req, res) {
+app.post("/webhook/", function (req, res) {
   // Make sure this is a page subscription
   if (req.body.object == "page") {
     // Iterate over each entry
