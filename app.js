@@ -1,16 +1,15 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+
+var db = mongoose.connect(process.env.MONGODB_URI);
+var compliments = require("./models/compliments");
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
-
-var mongoose = require("mongoose");
-
-var db = mongoose.connect(process.env.MONGODB_URI);
-var compliments = require("./models/compliments");
 
 // Server index page
 app.get("/", function (req, res) {
@@ -60,6 +59,8 @@ function processMessage(event) {
     
     var reply = getRandomCompliment();
 
+    console.log("Reply is: " + reply)
+
 	sendMessage(senderId, {text: reply});
   }
 }
@@ -68,18 +69,15 @@ function getRandomCompliment() {
 	// get random compliment from compliments collection
 	// Get the count of all users
 	compliments.count().exec(function (err, count) {
-		if (err) {
-			return "Please try again! I am so sorry your magnificence!";
-		}
-
+		if (err) return "Please try again! I am so sorry your magnificence!";
+		console.log("Count is: " + count);
 		// Get a random entry
 	 	var random = Math.floor(Math.random() * count);
 		// Again query all users but only fetch one offset by our random #
 		compliments.findOne().skip(random).exec(
 		function (err, compliment) {
-			if (err){
-				return "Please try again! I am so sorry your magnificence!";
-			}
+			if (err) return "Please try again! I am so sorry your magnificence!";
+			console.log("Compliment is: " + compliment);
 			return "Compliment has been found!";
 		});
 	});
