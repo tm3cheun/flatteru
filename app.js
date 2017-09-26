@@ -57,28 +57,24 @@ function processMessage(event) {
     console.log("Received message from senderId: " + senderId);
     console.log("Message is: " + JSON.stringify(message));
     
-    var reply = getRandomCompliment();
-
-    console.log("Reply is: " + reply)
-
-	sendMessage(senderId, {text: reply});
+    sendRandomCompliment();
   }
 }
 
-function getRandomCompliment() {
+function sendRandomCompliment() {
 	// get random compliment from compliments collection
 	// Get the count of all users
 	compliments.count().exec(function (err, count) {
-		if (err) return "Please try again! I am so sorry your magnificence!";
+		if (err) sendMessage(senderId, {text: "Please try again! I am so sorry your magnificence!"});
 		console.log("Count is: " + count);
 		// Get a random entry
 	 	var random = Math.floor(Math.random() * count);
 		// Again query all users but only fetch one offset by our random #
 		compliments.findOne().skip(random).exec(
 		function (err, compliment) {
-			if (err) return "Please try again! I am so sorry your magnificence!";
+			if (err) sendMessage(senderId, {text: "Please try again! I am so sorry your magnificence!"});
 			console.log("Compliment is: " + compliment);
-			return "Compliment has been found!";
+			sendMessage(senderId, {text: compliment["message"]});
 		});
 	});
 }
