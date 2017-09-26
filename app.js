@@ -16,6 +16,10 @@ app.get("/", function (req, res) {
 	res.send("Deployed!");
 });
 
+app.get('/setup',function(req,res) {
+	setupGetStartedButton(res);
+});
+
 // Facebook Webhook
 // Used for verification
 app.get("/webhook", function (req, res) {
@@ -48,6 +52,31 @@ app.post("/webhook", function (req, res) {
     res.sendStatus(200);
   }
 });
+
+function setupGetStartedButton(res){
+  var messageData = {
+    "get_started":[{
+      "payload":"USER_DEFINED_PAYLOAD"
+    }]
+  };
+
+  // Start the request
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    form: messageData
+  },
+  function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // Print out the response body
+      res.send(body);
+    } else { 
+      // TODO: Handle errors
+      res.send(body);
+    }
+  });
+}  
 
 function processMessage(event) {
   if (!event.message.is_echo) {
