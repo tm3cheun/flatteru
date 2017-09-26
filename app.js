@@ -7,7 +7,7 @@ var db = mongoose.connect(process.env.MONGODB_URI);
 var compliments = require("./models/compliments");
 
 var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 
@@ -29,7 +29,7 @@ app.get("/webhook", function (req, res) {
 });
 
 // All callbacks for Messenger will be POST-ed here
-app.post("/webhook", jsonParser, function (req, res) {
+app.post("/webhook", function (req, res) {
   // Make sure this is a page subscription
   if (req.body.object == "page") {
     // Iterate over each entry
