@@ -57,11 +57,11 @@ function processMessage(event) {
     console.log("Received message from senderId: " + senderId);
     console.log("Message is: " + JSON.stringify(message));
     
-    sendRandomCompliment();
+    sendRandomCompliment(senderId);
   }
 }
 
-function sendRandomCompliment() {
+function sendRandomCompliment(senderId) {
 	// get random compliment from compliments collection
 	// Get the count of all users
 	compliments.count().exec(function (err, count) {
