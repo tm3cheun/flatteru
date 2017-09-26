@@ -7,8 +7,8 @@ var db = mongoose.connect(process.env.MONGODB_URI);
 var compliments = require("./models/compliments");
 
 var app = express();
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.listen((process.env.PORT || 5000));
 
 // Server index page
